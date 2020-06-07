@@ -52,14 +52,13 @@ class RegLeg extends BaseController
         if($this->uri->segment('5')!='-') $searchText = $this->uri->segment('5');
         else $searchText = '';
 
-        $pdf = new FPDF('L','mm','A4');
-//        $pdf = new FPDF('l','cm',array(15,12));
+        $pdf = new FPDF('l','mm','A5');
         // membuat halaman baru
         $pdf->AddPage();
         // setting jenis font yang akan digunakan
         $pdf->SetFont('Arial','B',16);
         // mencetak string
-        $pdf->Cell(275,7,'LAPORAN REGISTER LEGALISIR',0,1,'C');
+        $pdf->Cell(190,7,'LAPORAN REGISTER LEGALISIR',0,1,'C');
         $pdf->SetFont('Arial','B',12);
 
         $reglegData = $this->regleg_model->cetakBasedPost($searchText,$tgl1,$tgl2,$jenisdok);
@@ -74,28 +73,22 @@ class RegLeg extends BaseController
 
         // Memberikan space kebawah agar tidak terlalu rapat
         $pdf->Cell(10,7,'',0,1);
-        $pdf->SetFont('Arial','B',11);
-        $pdf->Cell(10,6,'',0,0);
-        $pdf->Cell(10,6,'',0,0);
-        $pdf->Cell(10,6,'',0,0);
+        $pdf->SetFont('Arial','B',10);
         $pdf->Cell(10,6,'No.',1,0);
         $pdf->Cell(35,6,'No Register',1,0);
         $pdf->Cell(35,6,'NIK',1,0);
         $pdf->Cell(45,6,'Jenis Dokumen',1,0);
-        $pdf->Cell(55,6,'Pejabat Legalisir',1,0);
+        $pdf->Cell(35,6,'Pejabat Legalisir',1,0);
         $pdf->Cell(25,6,'Tanggal',1,1);
         $pdf->SetFont('Arial','',10);
 
         $i=1;
         foreach ($reglegData as $row){
-            $pdf->Cell(10,6,'',0,0);
-            $pdf->Cell(10,6,'',0,0);
-            $pdf->Cell(10,6,'',0,0);
             $pdf->Cell(10,6,$i,1,0);
             $pdf->Cell(35,6,$row->kode.$row->no_reg.'/'.date('Y',strtotime($row->rlgtgl)),1,0);
             $pdf->Cell(35,6,$row->nik,1,0);
             $pdf->Cell(45,6,$row->nmjdk,1,0);
-            $pdf->Cell(55,6,$row->nmpjb,1,0);
+            $pdf->Cell(35,6,$row->nmpjb,1,0);
             $pdf->Cell(25,6,date('d-m-Y',strtotime($row->rlgtgl)),1,1);
 
             $i++;
@@ -125,14 +118,15 @@ class RegLeg extends BaseController
             $pdf->MultiCell(13,0.5,'Nomor Register Legalisasi Dokumen Adminduk : ',0,'C');
             $pdf->SetFont('Arial','B',15);
             $pdf->MultiCell(13,0.5,$reglegData[0]->kode.$reglegData[0]->no_reg.'/'.date('Y',strtotime($reglegData[0]->rlgtgl)),0,'C');
-            $pdf->SetFont('Arial','',10);
+            $pdf->SetFont('Arial','',8);
+            $pdf->Ln();
+            $pdf->MultiCell(13,0.5,'Disahkan Oleh',0,'C');
+            $pdf->MultiCell(13,0.5,$reglegData[0]->jabatan,0,'C');
+            $pdf->MultiCell(13,0.5,$reglegData[0]->nmpjb."\n".'NIP. '.$reglegData[0]->nip,0,'C');
             $pdf->Ln();
             $pdf->SetFont('Arial','',8);
             $pdf->MultiCell(13,0.5,'Silahkan tulis nomor di atas pada dokumen adminduk dengan '."\n".' tanggal yang sama, yang telah dilegalisir di Disdukcapil Bantul',0,'C');
             $pdf->MultiCell(13,0.5,'--TERIMAKASIH--',0,'C');
-            $pdf->MultiCell(13,0.5,$reglegData[0]->jabatan,0,'R');
-            $pdf->Ln();$pdf->Ln();
-            $pdf->MultiCell(13,0.5,$reglegData[0]->nmpjb."\n".$reglegData[0]->nip,0,'R');
 
 
             $pdf->Output();
