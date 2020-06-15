@@ -51,8 +51,8 @@
                       <td><?php echo $record->kode ?></td>
                       <td><?php echo $record->nama ?></td>
                       <td class="text-center">
-                          <a class="btn btn-sm btn-info" href="<?php echo base_url().'editOldJdk/'.$record->jenisdokId; ?>"><i class="fa fa-pencil"></i></a><!-- 
-                          <a class="btn btn-sm btn-danger deleteJenisDok" href="#" data-jenisdokid="<?php echo $record->jenisdokId; ?>"><i class="fa fa-trash"></i></a> -->
+                          <a class="btn btn-sm btn-info" href="<?php echo base_url().'editOldJdk/'.$record->jenisdokId; ?>"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-danger deleteJenisDok" href="#" data-jenisdokid="<?php echo $record->jenisdokId; ?>"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <?php
