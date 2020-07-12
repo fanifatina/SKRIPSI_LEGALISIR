@@ -114,9 +114,9 @@ class RegLeg extends BaseController
             $pdf->MultiCell(13,0.5,'Tanggal : '.date('d-m-Y',strtotime($reglegData[0]->tanggal)).' ',0,'C');
             $pdf->SetFont('Arial','B',10);
             $pdf->Ln();
-            // echo'<pre>';
-            // print_r($reglegData[0]);
-            // echo'</pre>';
+            echo'<pre>';
+            print_r($reglegData[0]);
+            echo'</pre>';
             if($reglegData[0]->jenisdokId==1) $pdf->MultiCell(13,0.5,'NO KK : '.$reglegData[0]->NO_KK,0,'C');
             else if($reglegData[0]->jenisdokId==3) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$reglegData[0]->NO_AKTA_LHR,0,'C');
             else if($reglegData[0]->jenisdokId==7) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$reglegData[0]->NO_AKTA_LHR,0,'C');
