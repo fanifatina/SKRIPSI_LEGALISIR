@@ -30,7 +30,9 @@
                         </div>
                     </div><!-- /.box-body -->    
                     <div class="box-footer">
-                        <button class="btn btn-primary" onclick="window.location='<?php echo base_url() ?>cetakTunggal/<?php echo $this->uri->segment('2') ?>';">Cetak</button>
+                        <?php 
+                        echo '<button class="btn btn-primary" onclick="window.open(\''.base_url().'cetakTunggal/'.$this->uri->segment('2').'\');">Cetak</button>';
+                        ?>
                     </div>
                 </div>
             </div>

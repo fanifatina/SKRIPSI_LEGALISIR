@@ -111,9 +111,9 @@ class Regleg_model extends CI_Model
     {
         $this->db->select('*,  jdk.nama as nmjdk , pjb.nama as nmpjb, rlg.tanggal as rlgtgl');
         $this->db->from('tbl_regleg as rlg');
-        $this->db->from('tbl_bioadm as bio', 'bio.bioadmId = rlg.bioadmId');
+        $this->db->from('tbl_bioadm as bio', 'bio.NIK = rlg.nik');
         $this->db->join('tbl_pejabat as pjb', 'pjb.pejabatId = rlg.pejabatId');
-        $this->db->join('tbl_jenisdok as jdk', 'jdk.jenisdokId = rlg.jenisdokId');
+        $this->db->join('tbl_jenisdok as jdk', 'jdk.jenisdokId = rlg.jenisdokId'); 
         $this->db->where('rlg.reglegId', $id);
         $this->db->where('rlg.terhapus', 0);
         $query = $this->db->get();

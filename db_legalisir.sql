@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2020 at 12:53 PM
--- Server version: 10.1.9-MariaDB
+-- Generation Time: 12 Jul 2020 pada 15.26
+-- Versi Server: 10.1.9-MariaDB
 -- PHP Version: 7.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_bioadm`
+-- Struktur dari tabel `tbl_bioadm`
 --
 
 CREATE TABLE `tbl_bioadm` (
@@ -55,7 +55,7 @@ CREATE TABLE `tbl_bioadm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_bioadm`
+-- Dumping data untuk tabel `tbl_bioadm`
 --
 
 INSERT INTO `tbl_bioadm` (`bioadmId`, `NIK`, `NAMA_LGKP`, `JENIS_KLMIN`, `TMPT_LHR`, `TGL_LHR`, `NO_AKTA_LHR`, `GOL_DRH`, `AGAMA`, `STAT_KWN`, `NO_AKTA_KWN`, `TGL_KWN`, `NO_AKTA_CRAI`, `TGL_CRAI`, `STAT_HBKEL`, `PDDK_AKH`, `JENIS_PKRJN`, `NAMA_LGKP_IBU`, `NAMA_LGKP_AYAH`, `NO_KK`, `terhapus`, `dibuatOleh`, `waktuDibuat`, `diubahOleh`, `waktuDiubah`) VALUES
@@ -67,7 +67,7 @@ INSERT INTO `tbl_bioadm` (`bioadmId`, `NIK`, `NAMA_LGKP`, `JENIS_KLMIN`, `TMPT_L
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_jenisdok`
+-- Struktur dari tabel `tbl_jenisdok`
 --
 
 CREATE TABLE `tbl_jenisdok` (
@@ -82,7 +82,7 @@ CREATE TABLE `tbl_jenisdok` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_jenisdok`
+-- Dumping data untuk tabel `tbl_jenisdok`
 --
 
 INSERT INTO `tbl_jenisdok` (`jenisdokId`, `kode`, `nama`, `terhapus`, `dibuatOleh`, `waktuDibuat`, `diubahOleh`, `waktuDiubah`) VALUES
@@ -92,12 +92,14 @@ INSERT INTO `tbl_jenisdok` (`jenisdokId`, `kode`, `nama`, `terhapus`, `dibuatOle
 (4, 'AKM', 'Akta Kematian', 0, 4, '2020-03-09 04:32:52', 0, '0000-00-00 00:00:00'),
 (5, 'BIO', 'Biodata WNI', 0, 4, '2020-03-09 04:34:13', 4, '2020-03-09 04:34:18'),
 (6, 'SKT', 'Surat Keterangan Perekaman KTP El', 0, 4, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
-(7, 'KLL', 'Akta Kelahiran Luar Bantul', 0, 4, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00');
+(7, 'KLL', 'Akta Kelahiran Luar Bantul', 0, 4, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00'),
+(8, 'BIO', 'Biodata', 1, 4, '2020-06-15 18:53:22', 4, '2020-06-15 18:57:46'),
+(9, 'dok', 'dokumen baru banget', 1, 910, '2020-07-12 10:37:32', 910, '2020-07-12 10:38:08');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_pejabat`
+-- Struktur dari tabel `tbl_pejabat`
 --
 
 CREATE TABLE `tbl_pejabat` (
@@ -113,7 +115,7 @@ CREATE TABLE `tbl_pejabat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_pejabat`
+-- Dumping data untuk tabel `tbl_pejabat`
 --
 
 INSERT INTO `tbl_pejabat` (`pejabatId`, `nip`, `nama`, `jabatan`, `terhapus`, `dibuatOleh`, `waktuDibuat`, `diubahOleh`, `waktuDiubah`) VALUES
@@ -122,12 +124,14 @@ INSERT INTO `tbl_pejabat` (`pejabatId`, `nip`, `nama`, `jabatan`, `terhapus`, `d
 (3, '196810021996031003', 'Darwatiningsih, S.SI.M.SI', 'Kabid Pelayanan Pencatatan Sipil', 0, 1, '2020-02-07 02:54:55', 1, '2020-05-15 19:18:22'),
 (4, '7654321', 'Tes Aja1', 'Sekertaris1', 1, 1, '2020-02-09 11:16:15', 1, '2020-02-09 11:16:35'),
 (5, '8891', 'ayu1', 'Sekertaris II8', 1, 6, '2020-03-02 13:50:12', 6, '2020-03-02 13:50:34'),
-(6, '196405281997031002', 'Drs. Agustinus Bagus D.', 'Kasi Pengolahan Data dan Penyajian Data', 0, 1, '2020-05-15 19:20:11', 0, '0000-00-00 00:00:00');
+(6, '196405281997031002', 'Drs. Agustinus Bagus D.', 'Kasi Pengolahan Data dan Penyajian Data', 0, 1, '2020-05-15 19:20:11', 0, '0000-00-00 00:00:00'),
+(7, '197511291998032009', 'Susi S.Kom', 'Kasi Identitas', 1, 4, '2020-06-14 13:16:21', 4, '2020-06-14 13:17:20'),
+(8, '197511291998032000', 'Fani Fatina S.Kom', 'Kasi', 1, 910, '2020-07-12 10:38:41', 910, '2020-07-12 10:39:21');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_regleg`
+-- Struktur dari tabel `tbl_regleg`
 --
 
 CREATE TABLE `tbl_regleg` (
@@ -145,19 +149,25 @@ CREATE TABLE `tbl_regleg` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tbl_regleg`
+-- Dumping data untuk tabel `tbl_regleg`
 --
 
 INSERT INTO `tbl_regleg` (`reglegId`, `pejabatId`, `jenisdokId`, `nik`, `no_reg`, `tanggal`, `terhapus`, `dibuatOleh`, `waktuDibuat`, `diubahOleh`, `waktuDiubah`) VALUES
-(1, 2, 4, '876', 1, '2020-04-01', 0, 4, '2020-04-27 01:47:20', 0, '0000-00-00 00:00:00'),
-(2, 3, 4, '876', 1, '2020-04-03', 0, 4, '2020-04-27 01:51:24', 0, '0000-00-00 00:00:00'),
-(3, 3, 4, '876', 2, '2020-04-27', 0, 4, '2020-04-27 01:52:38', 0, '0000-00-00 00:00:00'),
-(4, 3, 2, '99728129', 1, '2020-05-19', 0, 1, '2020-05-19 12:09:15', 0, '0000-00-00 00:00:00');
+(1, 6, 7, '321', 1, '2020-07-11', 0, 4, '2020-07-12 11:29:18', 0, '0000-00-00 00:00:00'),
+(2, 6, 7, '321', 1, '2020-07-14', 0, 4, '2020-07-12 11:30:10', 0, '0000-00-00 00:00:00'),
+(3, 3, 7, '321', 2, '2020-07-19', 0, 4, '2020-07-12 11:32:32', 0, '0000-00-00 00:00:00'),
+(4, 2, 3, '321', 1, '2020-07-15', 0, 4, '2020-07-12 11:38:05', 0, '0000-00-00 00:00:00'),
+(5, 6, 3, '321', 2, '2020-07-18', 0, 4, '2020-07-12 11:38:22', 0, '0000-00-00 00:00:00'),
+(6, 2, 1, '321', 1, '2020-07-14', 0, 910, '2020-07-12 15:40:53', 0, '0000-00-00 00:00:00'),
+(7, 6, 1, '123', 2, '2020-07-18', 0, 910, '2020-07-12 15:47:14', 0, '0000-00-00 00:00:00'),
+(8, 3, 2, '123', 1, '2020-07-28', 0, 910, '2020-07-12 15:50:47', 0, '0000-00-00 00:00:00'),
+(9, 2, 3, '321', 3, '2020-07-21', 0, 910, '2020-07-12 15:51:48', 0, '0000-00-00 00:00:00'),
+(10, 2, 4, '321', 1, '2020-07-14', 0, 910, '2020-07-12 15:53:01', 0, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_status`
+-- Struktur dari tabel `tbl_status`
 --
 
 CREATE TABLE `tbl_status` (
@@ -166,7 +176,7 @@ CREATE TABLE `tbl_status` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbl_status`
+-- Dumping data untuk tabel `tbl_status`
 --
 
 INSERT INTO `tbl_status` (`statusId`, `status`) VALUES
@@ -177,7 +187,7 @@ INSERT INTO `tbl_status` (`statusId`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_users`
+-- Struktur dari tabel `tbl_users`
 --
 
 CREATE TABLE `tbl_users` (
@@ -195,7 +205,7 @@ CREATE TABLE `tbl_users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `tbl_users`
+-- Dumping data untuk tabel `tbl_users`
 --
 
 INSERT INTO `tbl_users` (`userId`, `email`, `password`, `name`, `mobile`, `statusId`, `isDeleted`, `createdBy`, `createdDtm`, `updatedBy`, `updatedDtm`) VALUES
@@ -205,8 +215,9 @@ INSERT INTO `tbl_users` (`userId`, `email`, `password`, `name`, `mobile`, `statu
 (4, 'user@user.com', '$2y$10$SAvFim22ptA9gHVORtIaru1dn9rhgerJlJCPxRNA02MjQaJnkxawq', 'Fani', '0858659512', 3, 0, 1, '2020-02-05 05:13:47', 1, '2020-02-05 05:14:49'),
 (6, 'boby@yahoo.com', '$2y$10$Gl44n./CI/0xaHjOV7vryeESGwubojAZxJEPjMar7lhH8hJ6TzK/q', 'Boby', '5432123456', 3, 0, 1, '2020-03-02 13:45:20', NULL, NULL),
 (5, 'giska98@yahoo.com', '$2y$10$9yWhQoXPO90E0iu87RTQN.uJ2fmzDrcBrpV3eZwXLsjAAKdcenYBu', 'Giska', '0857257710', 2, 0, 1, '2020-02-07 01:55:45', NULL, NULL),
-(7, 'andri1@gmail.com', '$2y$10$nZzfGBrBjA3tZ1PI0ZVqPOJbzVMqBEJ7H1i1I5t5p5yJZ5kbNh4.2', 'Andrikusuma1', '0858659581', 3, 0, 1, '2020-04-21 06:03:24', 1, '2020-04-21 06:03:52'),
-(909, 'a@gmail.com', '12345', 'admin', '000000000', 1, 0, 0, '0000-00-00 00:00:00', NULL, NULL);
+(7, 'andri1@gmail.com', '$2y$10$nZzfGBrBjA3tZ1PI0ZVqPOJbzVMqBEJ7H1i1I5t5p5yJZ5kbNh4.2', 'Andrikusuma1', '0858659581', 3, 1, 1, '2020-04-21 06:03:24', 1, '2020-06-14 13:11:12'),
+(910, 'fatina.ffani@gmail.com', '$2y$10$jQZx63kvQ6.bdB4j418YAu6yIJWsNGDKaluF0KwVFXpCXHxIDxiRe', 'Fani Fatina', '082265089766', 3, 0, 1, '2020-07-12 10:34:24', 1, '2020-07-12 14:06:58'),
+(911, 'yanu@gmail.com', '$2y$10$AmhMRP6H8OubPMmRCSYw8OaBXe6opKe7vJtBjeo3CoLsYLVBNkqCm', 'Yanu', '085743233932', 3, 0, 1, '2020-07-12 14:07:29', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -266,17 +277,17 @@ ALTER TABLE `tbl_bioadm`
 -- AUTO_INCREMENT for table `tbl_jenisdok`
 --
 ALTER TABLE `tbl_jenisdok`
-  MODIFY `jenisdokId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `jenisdokId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `tbl_pejabat`
 --
 ALTER TABLE `tbl_pejabat`
-  MODIFY `pejabatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pejabatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `tbl_regleg`
 --
 ALTER TABLE `tbl_regleg`
-  MODIFY `reglegId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `reglegId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `tbl_status`
 --
@@ -286,13 +297,13 @@ ALTER TABLE `tbl_status`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=910;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=912;
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `tbl_regleg`
+-- Ketidakleluasaan untuk tabel `tbl_regleg`
 --
 ALTER TABLE `tbl_regleg`
   ADD CONSTRAINT `tbl_regleg_ibfk_1` FOREIGN KEY (`pejabatId`) REFERENCES `tbl_pejabat` (`pejabatId`) ON DELETE NO ACTION ON UPDATE NO ACTION,

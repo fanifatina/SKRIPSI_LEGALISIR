@@ -52,23 +52,23 @@ class RegLeg extends BaseController
         if($this->uri->segment('5')!='-') $searchText = $this->uri->segment('5');
         else $searchText = '';
 
-        $pdf = new FPDF('l','mm','A5');
+        $pdf = new FPDF('l','mm','A4');
         // membuat halaman baru
         $pdf->AddPage();
         // setting jenis font yang akan digunakan
         $pdf->SetFont('Arial','B',16);
         // mencetak string
-        $pdf->Cell(190,7,'LAPORAN REGISTER LEGALISIR',0,1,'C');
+        $pdf->Cell(270,7,'LAPORAN REGISTER LEGALISIR',0,1,'C');
         $pdf->SetFont('Arial','B',12);
 
         $reglegData = $this->regleg_model->cetakBasedPost($searchText,$tgl1,$tgl2,$jenisdok);
 
 
         if($tgl1!='' && $tgl2!=''){
-            $pdf->Cell(190,6,'Tanggal '.$tgl1.' s/d '.$tgl2,0,1,'C');
+            $pdf->Cell(270,6,'Tanggal '.$tgl1.' s/d '.$tgl2,0,1,'C');
         }
         if($jenisdok!=''){
-            $pdf->Cell(190,6,'Jenis Dokumen : '.$reglegData[0]->nmjdk,0,1,'C');
+            $pdf->Cell(270,6,'Jenis Dokumen : '.$reglegData[0]->nmjdk,0,1,'C');
         }
 
         // Memberikan space kebawah agar tidak terlalu rapat
@@ -76,20 +76,20 @@ class RegLeg extends BaseController
         $pdf->SetFont('Arial','B',10);
         $pdf->Cell(10,6,'No.',1,0);
         $pdf->Cell(35,6,'No Register',1,0);
-        $pdf->Cell(35,6,'NIK',1,0);
-        $pdf->Cell(45,6,'Jenis Dokumen',1,0);
-        $pdf->Cell(35,6,'Pejabat Legalisir',1,0);
-        $pdf->Cell(25,6,'Tanggal',1,1);
+        $pdf->Cell(55,6,'NIK',1,0);
+        $pdf->Cell(50,6,'Jenis Dokumen',1,0);
+        $pdf->Cell(70,6,'Pejabat Legalisir',1,0);
+        $pdf->Cell(30,6,'Tanggal',1,1);
         $pdf->SetFont('Arial','',10);
 
         $i=1;
         foreach ($reglegData as $row){
             $pdf->Cell(10,6,$i,1,0);
             $pdf->Cell(35,6,$row->kode.$row->no_reg.'/'.date('Y',strtotime($row->rlgtgl)),1,0);
-            $pdf->Cell(35,6,$row->nik,1,0);
-            $pdf->Cell(45,6,$row->nmjdk,1,0);
-            $pdf->Cell(35,6,$row->nmpjb,1,0);
-            $pdf->Cell(25,6,date('d-m-Y',strtotime($row->rlgtgl)),1,1);
+            $pdf->Cell(55,6,$row->nik,1,0);
+            $pdf->Cell(50,6,$row->nmjdk,1,0);
+            $pdf->Cell(70,6,$row->nmpjb,1,0);
+            $pdf->Cell(30,6,date('d-m-Y',strtotime($row->rlgtgl)),1,1);
 
             $i++;
         }
@@ -111,11 +111,19 @@ class RegLeg extends BaseController
             $pdf->SetFont('Arial','B',10);
             $pdf->MultiCell(13,0.5,'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL '."\n".' KABUPATEN BANTUL',0,'C');
             $pdf->SetFont('Arial','',8);
-            $pdf->MultiCell(13,0.5,'Tanggal : '.date('d-m-Y').' '."\n".' Jam : '.date('H:i').' ',0,'C');
+            $pdf->MultiCell(13,0.5,'Tanggal : '.date('d-m-Y',strtotime($reglegData[0]->tanggal)).' ',0,'C');
             $pdf->SetFont('Arial','B',10);
             $pdf->Ln();
-            $pdf->MultiCell(13,0.5,'NIK : '.$reglegData[0]->NO_KK,0,'C');
-            $pdf->MultiCell(13,0.5,'Nomor Register Legalisasi Dokumen Adminduk : ',0,'C');
+            // echo'<pre>';
+            // print_r($reglegData[0]);
+            // echo'</pre>';
+            if($reglegData[0]->jenisdokId==1) $pdf->MultiCell(13,0.5,'NO KK : '.$reglegData[0]->NO_KK,0,'C');
+            else if($reglegData[0]->jenisdokId==3) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$reglegData[0]->NO_AKTA_LHR,0,'C');
+            else if($reglegData[0]->jenisdokId==7) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$reglegData[0]->NO_AKTA_LHR,0,'C');
+            else $pdf->MultiCell(13,0.5,'NO KTP : '.$reglegData[0]->NIK,0,'C');
+
+            $pdf->SetFont('Arial','B',10);
+            $pdf->MultiCell(13,0.5,'Nomor Register Legalisasi Dokumen Adminduk : '.$reglegData[0]->jenisdokId,0,'C');
             $pdf->SetFont('Arial','B',15);
             $pdf->MultiCell(13,0.5,$reglegData[0]->kode.$reglegData[0]->no_reg.'/'.date('Y',strtotime($reglegData[0]->rlgtgl)),0,'C');
             $pdf->SetFont('Arial','',8);
@@ -376,6 +384,7 @@ class RegLeg extends BaseController
      */
     function editRegLeg()
     {
+        date_default_timezone_set("Asia/Jakarta");
         if($this->isForAll() == TRUE)
         {
 
@@ -408,21 +417,21 @@ class RegLeg extends BaseController
                 if(count($DATANOBARU)==0) $GETNOREGBARU = 1;
                 else $GETNOREGBARU = $DATANOBARU[0]->noregakhir+1;
 
-                if($jenis=='4'){
+                if($jenis=='7'){
                     $dt1week = $this->regleg_model->getreglegInfoByNIK($nik);
-                    echo'<pre>';
-                    print_r($dt1week);
-                    echo'</pre>';
 
                     if(strtotime($tanggal)>strtotime($dt1week[0]->tanggal)+604800){
                         $GETNOREGBARU = $GETNOREGBARU;   
                     }
                     else{
                         $GETNOREGBARU = $dt1week[0]->no_reg;
+                        $pejabat = $dt1week[0]->pejabatId;
                     }
 
                     echo $GETNOREGBARU;
                 }
+
+                $tanggal = date('Y-m-d', strtotime($tanggal));
 
                 $reglegInfo = array('tanggal'=>$tanggal, 'no_reg'=>$GETNOREGBARU, 'pejabatId'=>$pejabat, 'jenisdokId'=>$jenis, 'nik'=>$nik, 'dibuatOleh'=>$this->vendorId,'waktuDibuat'=>date('Y-m-d H:i:s'));
     
