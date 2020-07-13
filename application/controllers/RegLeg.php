@@ -105,6 +105,7 @@ class RegLeg extends BaseController
         $id= $this->uri->segment('2');
         if($id!=''){
             $reglegData = $this->regleg_model->cetakTunggal($id);
+            $biox = $this->bioadm_model->getBioAdmInfoByNIK($reglegData[0]->nik);
 
             $pdf = new FPDF('l','cm',array(15,12));
             $pdf->AddPage();
@@ -114,16 +115,13 @@ class RegLeg extends BaseController
             $pdf->MultiCell(13,0.5,'Tanggal : '.date('d-m-Y',strtotime($reglegData[0]->tanggal)).' ',0,'C');
             $pdf->SetFont('Arial','B',10);
             $pdf->Ln();
-            echo'<pre>';
-            print_r($reglegData[0]);
-            echo'</pre>';
-            if($reglegData[0]->jenisdokId==1) $pdf->MultiCell(13,0.5,'NO KK : '.$reglegData[0]->NO_KK,0,'C');
-            else if($reglegData[0]->jenisdokId==3) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$reglegData[0]->NO_AKTA_LHR,0,'C');
-            else if($reglegData[0]->jenisdokId==7) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$reglegData[0]->NO_AKTA_LHR,0,'C');
-            else $pdf->MultiCell(13,0.5,'NO KTP : '.$reglegData[0]->NIK,0,'C');
+            if($reglegData[0]->jenisdokId==1) $pdf->MultiCell(13,0.5,'NO KK : '.$biox[0]->NO_KK,0,'C');
+            else if($reglegData[0]->jenisdokId==3) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$biox[0]->NO_AKTA_LHR,0,'C');
+            else if($reglegData[0]->jenisdokId==7) $pdf->MultiCell(13,0.5,'NO AKTA KELAHIRAN : '.$biox[0]->NO_AKTA_LHR,0,'C');
+            else $pdf->MultiCell(13,0.5,'NO KTP : '.$biox[0]->NIK,0,'C');
 
             $pdf->SetFont('Arial','B',10);
-            $pdf->MultiCell(13,0.5,'Nomor Register Legalisasi Dokumen Adminduk : '.$reglegData[0]->jenisdokId,0,'C');
+            $pdf->MultiCell(13,0.5,'Nomor Register Legalisasi Dokumen Adminduk : ',0,'C');
             $pdf->SetFont('Arial','B',15);
             $pdf->MultiCell(13,0.5,$reglegData[0]->kode.$reglegData[0]->no_reg.'/'.date('Y',strtotime($reglegData[0]->rlgtgl)),0,'C');
             $pdf->SetFont('Arial','',8);
