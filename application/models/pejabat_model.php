@@ -49,6 +49,18 @@ class Pejabat_model extends CI_Model
 
         return $result;
     }
+
+
+    function existKode($nip){
+        $this->db->select('*');
+        $this->db->from('tbl_pejabat');
+        $this->db->where('nip', $nip);
+        $query = $this->db->get();
+        // $result = $query->result();        
+        $num = $query->num_rows();
+        return $num;
+    }
+
     
     /**
      * Fungsi ini untuk menambahkan pejabat baru

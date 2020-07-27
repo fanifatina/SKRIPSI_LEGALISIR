@@ -59,23 +59,24 @@
                     </tr>
                     <?php
                     if(!empty($bioadmRecords)){
-                        $no = 1;
+                        if($this->uri->segment('2')!='') $no = $this->uri->segment('2')+1;
+                        else $no = '1';
                         foreach($bioadmRecords as $record){
-                        ?>
-                        <tr>
-                          <td><?php echo $no ?></td>
-                          <td><?php echo $record->NIK ?></td>
-                          <td><?php echo $record->NAMA_LGKP ?></td>
-                          <td><?php if($record->JENIS_KLMIN=='L') echo'Laki-Laki'; else if($record->JENIS_KLMIN=='P') echo'Perempuan'; ?></td>
-                          <td><?php echo $record->TMPT_LHR ?></td>
-                          <td><?php echo $record->TGL_LHR ?></td>
-                          
-                          <td class="text-center">
-                              <a class="btn btn-sm btn-info" href="<?php echo base_url().'detailBam/'.$record->bioadmId; ?>"><i class="fa fa-info"></i></a>
-                          </td>
-                        </tr>
-                        <?php
-                        $no++;
+                          ?>
+                          <tr>
+                            <td><?php echo $no ?></td>
+                            <td><?php echo $record->NIK ?></td>
+                            <td><?php echo $record->NAMA_LGKP ?></td>
+                            <td><?php if($record->JENIS_KLMIN=='L') echo'Laki-Laki'; else if($record->JENIS_KLMIN=='P') echo'Perempuan'; ?></td>
+                            <td><?php echo $record->TMPT_LHR ?></td>
+                            <td><?php echo $record->TGL_LHR ?></td>
+                            
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-info" href="<?php echo base_url().'detailBam/'.$record->bioadmId; ?>"><i class="fa fa-info"></i></a>
+                            </td>
+                          </tr>
+                          <?php
+                          $no++;
                         }
                     }
                     ?>

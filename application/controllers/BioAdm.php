@@ -329,9 +329,95 @@ class BioAdm extends BaseController
         }
     }
 
+    // function import(){
+    //     date_default_timezone_set("Asia/Jakarta");
+    //     if (isset($_POST['import'])){
+
+    //         $file = $_FILES['impbioadm']['tmp_name'];
+
+    //         // Medapatkan ekstensi file csv yang akan diimport.
+    //         $ekstensi  = explode('.', $_FILES['impbioadm']['name']);
+
+    //         // Tampilkan peringatan jika submit tanpa memilih menambahkan file.
+    //         if (empty($file)) {
+    //             echo 'File tidak boleh kosong!';
+    //         } else {
+    //             // Validasi apakah file yang diupload benar-benar file csv.
+    //             if (strtolower(end($ekstensi)) === 'csv' && $_FILES["impbioadm"]["size"] > 0) {
+
+    //                 $i = 0; $dataxx = array();
+    //                 $handle = fopen($file, "r");
+    //                 while (($row = fgetcsv($handle, 2048))) {
+    //                     $i++;
+    //                     if ($i == 1) continue;
+
+    //                     $dataxx[] = explode(';',$row[0]);
+
+    //                 }
+
+    //                 foreach($dataxx as $k=>$row){
+    //                     if($row[5]!=''){
+    //                         $tgllahir = date('Y-m-d',strtotime($row[5]));
+    //                     }
+    //                     else{
+    //                         $tgllahir = '';
+    //                     }
+
+    //                     if($row[11]!=''){
+    //                         $tglkawin = date('Y-m-d',strtotime($row[11]));
+    //                     }
+    //                     else{
+    //                         $tglkawin = '';
+    //                     }
+
+    //                     if($row[13]!=''){
+    //                         $tglcerai = date('Y-m-d',strtotime($row[13]));
+    //                     }
+    //                     else{
+    //                         $tglcerai = '';
+    //                     }
+                        
+    //                     $bioadmInfo = [
+    //                         'NIK' => $row[1],
+    //                         'NAMA_LGKP' => $row[2],
+    //                         'JENIS_KLMIN' => $row[3],
+    //                         'TMPT_LHR' => $row[4],
+    //                         'TGL_LHR' => $tgllahir,
+    //                         'NO_AKTA_LHR' => $row[6],
+    //                         'GOL_DRH' => $row[7],
+    //                         'AGAMA' => $row[8],
+    //                         'STAT_KWN' => $row[9],
+    //                         'NO_AKTA_KWN' => $row[10],
+    //                         'TGL_KWN' => $tglkawin,
+    //                         'NO_AKTA_CRAI' => $row[12],
+    //                         'TGL_CRAI' => $tglcerai,
+    //                         'STAT_HBKEL' => $row[14],
+    //                         'PDDK_AKH' => $row[15],
+    //                         'JENIS_PKRJN' => $row[16],
+    //                         'NAMA_LGKP_IBU' => $row[17],
+    //                         'NAMA_LGKP_AYAH' => $row[18],
+    //                         'NO_KK' => $row[19],
+    //                         'dibuatOleh' => $this->vendorId,
+    //                         'waktuDibuat' => date('Y-m-d H:i:s'),
+    //                     ];
+
+    //                     // Simpan data ke database.
+    //                     $this->bioadm_model->addNewBioAdm($bioadmInfo);
+    //                 }
+
+    //                 fclose($handle);
+    //                 redirect('DaftarBioAdm');
+    //             } else {
+    //                 echo 'Format file tidak valid!';
+    //             }
+    //         }
+    //     }
+    // }
+
     function import(){
         date_default_timezone_set("Asia/Jakarta");
         if (isset($_POST['import'])){
+            include APPPATH.'third_party/PHPExcel/Classes/PHPExcel.php';
 
             $file = $_FILES['impbioadm']['tmp_name'];
 
@@ -343,75 +429,90 @@ class BioAdm extends BaseController
                 echo 'File tidak boleh kosong!';
             } else {
                 // Validasi apakah file yang diupload benar-benar file csv.
-                if (strtolower(end($ekstensi)) === 'csv' && $_FILES["impbioadm"]["size"] > 0) {
+                if ((strtolower(end($ekstensi)) === 'xlsx' || strtolower(end($ekstensi)) === 'xls') && $_FILES["impbioadm"]["size"] > 0) {
 
-                    $i = 0; $dataxx = array();
-                    $handle = fopen($file, "r");
-                    while (($row = fgetcsv($handle, 2048))) {
-                        $i++;
-                        if ($i == 1) continue;
+                    $data_upload = $file;
 
-                        $dataxx[] = explode(';',$row[0]);
+//                    $excelreader = new PHPExcel_Reader_Excel2007();
+                    $load = PHPExcel_IOFactory::load($file);
+                    $sheet = $load->getActiveSheet()->toArray(null, true, true ,true);
 
-                    }
+                    // echo'<pre>';
+                    // print_r($sheet);
+                    // echo'</pre>';
+                    // die();
 
-                    foreach($dataxx as $k=>$row){
-                        if($row[5]!=''){
-                            $tgllahir = date('Y-m-d',strtotime($row[5]));
+                    $data = array();
+                    $numrow = 1;
+                    foreach($sheet as $row){
+
+                        if($row['E']!=''){
+                            $row['E'] = str_replace('/', '-', $row['E']);
+                            $tgllahir = date('Y-m-d',strtotime($row['E']));
                         }
                         else{
                             $tgllahir = '';
                         }
 
-                        if($row[11]!=''){
-                            $tglkawin = date('Y-m-d',strtotime($row[11]));
+                        if($row['K']!=''){
+                            $row['K'] = str_replace('/', '-', $row['K']);
+                            $tglkawin = date('Y-m-d',strtotime($row['K']));
                         }
                         else{
                             $tglkawin = '';
                         }
 
-                        if($row[13]!=''){
-                            $tglcerai = date('Y-m-d',strtotime($row[13]));
+                        if($row['M']!=''){
+                            $row['M'] = str_replace('/', '-', $row['M']);
+                            $tglcerai = date('Y-m-d',strtotime($row['M']));
                         }
                         else{
                             $tglcerai = '';
                         }
-                        
-                        $bioadmInfo = [
-                            'NIK' => $row[1],
-                            'NAMA_LGKP' => $row[2],
-                            'JENIS_KLMIN' => $row[3],
-                            'TMPT_LHR' => $row[4],
-                            'TGL_LHR' => $tgllahir,
-                            'NO_AKTA_LHR' => $row[6],
-                            'GOL_DRH' => $row[7],
-                            'AGAMA' => $row[8],
-                            'STAT_KWN' => $row[9],
-                            'NO_AKTA_KWN' => $row[10],
-                            'TGL_KWN' => $tglkawin,
-                            'NO_AKTA_CRAI' => $row[12],
-                            'TGL_CRAI' => $tglcerai,
-                            'STAT_HBKEL' => $row[14],
-                            'PDDK_AKH' => $row[15],
-                            'JENIS_PKRJN' => $row[16],
-                            'NAMA_LGKP_IBU' => $row[17],
-                            'NAMA_LGKP_AYAH' => $row[18],
-                            'NO_KK' => $row[19],
-                            'dibuatOleh' => $this->vendorId,
-                            'waktuDibuat' => date('Y-m-d H:i:s'),
-                        ];
 
-                        // Simpan data ke database.
-                        $this->bioadm_model->addNewBioAdm($bioadmInfo);
+                        if($numrow > 1){
+                            if($row['A']!=''){
+                                $bioadmInfo = [
+                                    'NIK' => $row['A'],
+                                    'NAMA_LGKP' => $row['B'],
+                                    'JENIS_KLMIN' => $row['C'],
+                                    'TMPT_LHR' => $row['D'],
+                                    'TGL_LHR' => $tgllahir,
+                                    'NO_AKTA_LHR' => $row['F'],
+                                    'GOL_DRH' => $row['G'],
+                                    'AGAMA' => $row['H'],
+                                    'STAT_KWN' => $row['I'],
+                                    'NO_AKTA_KWN' => $row['J'],
+                                    'TGL_KWN' => $tglkawin,
+                                    'NO_AKTA_CRAI' => $row['L'],
+                                    'TGL_CRAI' => $tglcerai,
+                                    'STAT_HBKEL' => $row['N'],
+                                    'PDDK_AKH' => $row['O'],
+                                    'JENIS_PKRJN' => $row['P'],
+                                    'NAMA_LGKP_IBU' => $row['Q'],
+                                    'NAMA_LGKP_AYAH' => $row['R'],
+                                    'NO_KK' => $row['S'],
+                                    'dibuatOleh' => $this->vendorId,
+                                    'waktuDibuat' => date('Y-m-d H:i:s'),
+                                ];
+                            }
+
+                            $this->bioadm_model->addNewBioAdm($bioadmInfo);
+                        }
+                        $numrow++;
                     }
 
-                    fclose($handle);
-                    redirect('DaftarBioAdm');
-                } else {
-                    echo 'Format file tidak valid!';
+                    echo'<script type="text/javascript">alert("Berhasil import data !");  window.location.href = "'. base_url().'DaftarBioAdm";  </script>';
+                
+                    //delete file from server
+//                    unlink(realpath('excel/'.$data_upload['file_name']));
+                }
+                else{
+                    echo'<script type="text/javascript">alert("Format file harus .xls atau .xlsx"); window.location.href = "'. base_url().'DaftarBioAdm";</script>';
                 }
             }
         }
+//        redirect('DaftarBioAdm');
     }
 }
 

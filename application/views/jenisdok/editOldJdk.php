@@ -46,6 +46,7 @@ if(!empty($jenisdokInfo))
                                     <div class="form-group">
                                         <label for="kode">Kode</label>
                                         <input type="text" class="form-control" id="kode" placeholder="Kode" name="kode" value="<?php echo $kode; ?>" maxlength="3">
+                                        <input type="hidden" class="form-control" id="kodeasli" placeholder="Kodeasli" name="kodeasli" value="<?php echo $kode; ?>" maxlength="3">
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                

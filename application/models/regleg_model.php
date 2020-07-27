@@ -15,7 +15,7 @@ class Regleg_model extends CI_Model
         $this->db->join('tbl_jenisdok as jdk', 'jdk.jenisdokId = rlg.jenisdokId');
 
         if(!empty($searchText)) {
-            $likeCriteria = "(no_dok  LIKE '%".$searchText."%')";
+            $likeCriteria = "(rlg.nik  LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
         if(!empty($dt1) && !empty($dt2)){
@@ -52,7 +52,7 @@ class Regleg_model extends CI_Model
         $this->db->join('tbl_jenisdok as jdk', 'jdk.jenisdokId = rlg.jenisdokId');
 
         if(!empty($searchText)) {
-            $likeCriteria = "(no_dok  LIKE '%".$searchText."%')";
+            $likeCriteria = "(rlg.nik  LIKE '%".$searchText."%')";
             $this->db->where($likeCriteria);
         }
         if(!empty($dt1) && !empty($dt2)){

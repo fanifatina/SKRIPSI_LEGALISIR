@@ -105,17 +105,24 @@ class JenisDok extends BaseController
                 $kode = $this->input->post('kode');
                 $nama = $this->input->post('nama');
 
-                $jenisdokInfo = array('kode'=>$kode,'nama'=>$nama, 'dibuatOleh'=>$this->vendorId, 'waktuDibuat'=>date('Y-m-d H:i:s'));
-                
-                $this->load->model('jenisdok_model');
-                $result = $this->jenisdok_model->addNewJenisDok($jenisdokInfo);
-                
-                if($result > 0)
-                    $this->session->set_flashdata('success', 'Jenis Dokumen Baru Berhasil Dibuat');
-                else
-                    $this->session->set_flashdata('error', 'Jenis Dokumen Baru Gagal Dibuat');
-                
-                redirect('jenisdok/addJenisDOk');
+                $exist = $this->jenisdok_model->existKode($kode);
+                if($exist==0){
+
+                    $jenisdokInfo = array('kode'=>$kode,'nama'=>$nama, 'dibuatOleh'=>$this->vendorId, 'waktuDibuat'=>date('Y-m-d H:i:s'));
+                    
+                    $this->load->model('jenisdok_model');
+                    $result = $this->jenisdok_model->addNewJenisDok($jenisdokInfo);
+                    if($result > 0)
+                        $this->session->set_flashdata('success', 'Jenis Dokumen Baru Berhasil Dibuat');
+                    else
+                        $this->session->set_flashdata('error', 'Jenis Dokumen Baru Gagal Dibuat');
+                    
+                    redirect('jenisdok/addJenisDOk');
+                }
+                else{
+                    $this->session->set_flashdata('error', 'Kode sudah ada, silahkan gunakan kode lain !');
+                    redirect('jenisdok/addJenisDOk');
+                }
             }
         }
     }
@@ -171,22 +178,36 @@ class JenisDok extends BaseController
             }
             else
             {
+                $kodeasli = $this->input->post('kodeasli');
                 $kode = $this->input->post('kode');
                 $nama = $this->input->post('nama');
-                
-                $jenisdokInfo = array('kode'=>$kode, 'nama'=>$nama, 'diubahOleh'=>$this->vendorId, 'waktuDiubah'=>date('Y-m-d H:i:s'));
-                
-                $result = $this->jenisdok_model->editJenisDok($jenisdokInfo, $jenisdokId);
-                
-                if($result == true)
-                {
-                    $this->session->set_flashdata('success', 'Data Jenis Dokumen Berhasil Diubah !');
+
+                if($kodeasli!=$kode){
+                    $exist = $this->jenisdok_model->existKode($kode);
                 }
-                else
-                {
-                    $this->session->set_flashdata('error', 'Data Jenis Dokumen Gagal Diubah');
+                else{
+                    $exist=0;
                 }
                 
+                if($exist==0){
+                    $jenisdokInfo = array('kode'=>$kode, 'nama'=>$nama, 'diubahOleh'=>$this->vendorId, 'waktuDiubah'=>date('Y-m-d H:i:s'));
+                    
+                    $result = $this->jenisdok_model->editJenisDok($jenisdokInfo, $jenisdokId);
+                    
+                    if($result == true)
+                    {
+                        $this->session->set_flashdata('success', 'Data Jenis Dokumen Berhasil Diubah !');
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('error', 'Data Jenis Dokumen Gagal Diubah');
+                    }
+                }
+                else{
+                    $this->session->set_flashdata('error', 'Kode sudah ada, silahkan gunakan kode lain !');
+                    redirect('jenisdok/editOldJdk/'.$jenisdokId);
+                }
+
                 redirect('DaftarJenisDok');
             }
         }

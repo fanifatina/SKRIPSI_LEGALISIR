@@ -46,6 +46,16 @@ class Jenisdok_model extends CI_Model
         return $result;
     }
 
+    function existKode($kode){
+        $this->db->select('*');
+        $this->db->from('tbl_jenisdok');
+        $this->db->where('kode', $kode);
+        $query = $this->db->get();
+        // $result = $query->result();        
+        $num = $query->num_rows();
+        return $num;
+    }
+
     function ListJenisDok()
     {
         $this->db->select('*');

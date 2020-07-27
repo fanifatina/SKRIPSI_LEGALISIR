@@ -48,6 +48,8 @@ if(!empty($pejabatInfo))
                                     <div class="form-group">
                                         <label for="nip">NIP</label>
                                         <input type="text" class="form-control" id="nip" placeholder="NIP" name="nip" value="<?php echo $nip; ?>" maxlength="25">
+                                        <input type="hidden" class="form-control" id="nipasli" placeholder="NIPasli" name="nipasli" value="<?php echo $nip; ?>" maxlength="25">
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">                                

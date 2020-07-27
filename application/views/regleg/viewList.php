@@ -43,7 +43,7 @@ else $jdok = '-';
                     <div class="box-tools">
                         <form name="frm" action="<?php echo base_url() ?>DaftarRegLeg" method="POST" id="searchList">
                             <div class="input-group">
-                              <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Cari No. Dokumen"/>
+                              <input type="text" name="searchText" value="<?php echo $searchText; ?>" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Cari NIK"/>
                               <div class="input-group-btn">
                                 <button class="btn btn-sm btn-default searchList"><i class="fa fa-search"></i></button>
                               </div>
@@ -88,23 +88,26 @@ else $jdok = '-';
                     <?php
                     if(!empty($reglegRecords))
                     {
-                        $no = 1;
+
+                        if($this->uri->segment('2')!='') $no = $this->uri->segment('2')+1;
+                        else $no = 1;
+
                         foreach($reglegRecords as $record)
                         {
-                    ?>
-                    <tr>
-                      <td><?php echo $no ?></td>
-                      <td><?php echo $record->kode.$record->no_reg.'/'.date('Y',strtotime($record->rlgtgl)); ?></td>
-                      <td><?php echo $record->nik ?></td>
-                      <td><?php echo $record->nmjdk ?></td>
-                      <td><?php echo $record->nmpjb ?></td>
-                      <td><?php echo date('d-m-Y',strtotime($record->rlgtgl));?></td>
-                      <td class="text-center">
-                          <a class="btn btn-sm btn-info" href="<?php echo base_url().'viewTemplate/'.$record->reglegId; ?>"><i class="fa fa-search"></i></a>
-                      </td>
-                    </tr>
-                    <?php
-                        $no++;
+                          ?>
+                          <tr>
+                            <td><?php echo $no ?></td>
+                            <td><?php echo $record->kode.$record->no_reg.'/'.date('Y',strtotime($record->rlgtgl)); ?></td>
+                            <td><?php echo $record->nik ?></td>
+                            <td><?php echo $record->nmjdk ?></td>
+                            <td><?php echo $record->nmpjb ?></td>
+                            <td><?php echo date('d-m-Y',strtotime($record->rlgtgl));?></td>
+                            <td class="text-center">
+                                <a class="btn btn-sm btn-info" href="<?php echo base_url().'viewTemplate/'.$record->reglegId; ?>"><i class="fa fa-search"></i></a>
+                            </td>
+                          </tr>
+                          <?php
+                          $no++;
                         }
                     }
                     ?>

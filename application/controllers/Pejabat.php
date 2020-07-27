@@ -108,16 +108,23 @@ class Pejabat extends BaseController
                 $nama = $this->input->post('nama');
                 $jabatan = $this->input->post('jabatan');
 
-                $pejabatInfo = array('nip'=>$nip, 'nama'=>$nama, 'jabatan'=>$jabatan, 'dibuatOleh'=>$this->vendorId, 'waktuDibuat'=>date('Y-m-d H:i:s'));
-                
-                $this->load->model('pejabat_model');
-                $result = $this->pejabat_model->addNewPejabat($pejabatInfo);
-                
-                if($result > 0)
-                    $this->session->set_flashdata('success', 'Pejabat Baru Berhasil Dibuat');
-                else
-                    $this->session->set_flashdata('error', 'Pejabat Baru Gagal Dibuat');
-                
+                $exist = $this->pejabat_model->existKode($nip);
+                                
+                if($exist==0){
+
+                    $pejabatInfo = array('nip'=>$nip, 'nama'=>$nama, 'jabatan'=>$jabatan, 'dibuatOleh'=>$this->vendorId, 'waktuDibuat'=>date('Y-m-d H:i:s'));
+                    
+                    $this->load->model('pejabat_model');
+                    $result = $this->pejabat_model->addNewPejabat($pejabatInfo);
+                    
+                    if($result > 0)
+                        $this->session->set_flashdata('success', 'Pejabat Baru Berhasil Dibuat');
+                    else
+                        $this->session->set_flashdata('error', 'Pejabat Baru Gagal Dibuat');
+                }
+                else{
+                    $this->session->set_flashdata('error', 'NIP sudah ada, silahkan gunakan kode lain !');
+                }
                 redirect('pejabat/addPejabat');
             }
         }
@@ -175,25 +182,39 @@ class Pejabat extends BaseController
             }
             else
             {
+                $nipasli = $this->input->post('nipasli');
                 $nip = $this->input->post('nip');
                 $nama = $this->input->post('nama');
                 $jabatan = $this->input->post('jabatan');
-                
-                $pejabatInfo = array('nip'=>$nip, 'nama'=>$nama, 'jabatan'=>$jabatan,
-                                    'diubahOleh'=>$this->vendorId, 'waktuDiubah'=>date('Y-m-d H:i:s'));
-                
-                $result = $this->pejabat_model->editPejabat($pejabatInfo, $pejabatId);
-                
-                if($result == true)
-                {
-                    $this->session->set_flashdata('success', 'Data Pejabat Berhasil Diubah !');
+
+                if($nipasli!=$nip){
+                    $exist = $this->pejabat_model->existKode($nip);
                 }
-                else
-                {
-                    $this->session->set_flashdata('error', 'Data Pejabat Gagal Diubah');
+                else{
+                    $exist=0;
+                }
+
+                if($exist==0){
+                    $pejabatInfo = array('nip'=>$nip, 'nama'=>$nama, 'jabatan'=>$jabatan,
+                                        'diubahOleh'=>$this->vendorId, 'waktuDiubah'=>date('Y-m-d H:i:s'));
+                    
+                    $result = $this->pejabat_model->editPejabat($pejabatInfo, $pejabatId);
+                    
+                    if($result == true)
+                    {
+                        $this->session->set_flashdata('success', 'Data Pejabat Berhasil Diubah !');
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('error', 'Data Pejabat Gagal Diubah');
+                    }
+                    redirect('DaftarPejabat');
+                }
+                else{
+                    $this->session->set_flashdata('error', 'NIP sudah ada, silahkan gunakan kode lain !');
+                    redirect('pejabat/editOldPjb/'.$pejabatId);
                 }
                 
-                redirect('DaftarPejabat');
             }
         }
     }

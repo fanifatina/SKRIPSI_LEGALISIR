@@ -42,7 +42,10 @@
                     <?php
                     if(!empty($pejabatRecords))
                     {
-                        $no = 1;
+
+                        if($this->uri->segment('2')!='') $no = $this->uri->segment('2')+1;
+                        else $no = 1;
+                        
                         foreach($pejabatRecords as $record)
                         {
                     ?>
